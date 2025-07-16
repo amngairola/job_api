@@ -1,25 +1,24 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import HomeCards from "./components/HomeCards";
-import JobLisitng from "./components/JobLisitng";
-export default function App() {
-  return (
-    <div>
-      <Navbar />
-      {/* <!-- Hero --> */}
-      <Hero />
-      <HomeCards />
-      <JobLisitng />
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
 
-      <section className="m-auto max-w-lg my-10 px-6">
-        <a
-          href="jobs.html"
-          className="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
-        >
-          View All Jobs
-        </a>
-      </section>
-    </div>
-  );
+import Home from "./pages/Home";
+import MainLayout from "./layouts/MainLayout";
+import JobsPage from "./pages/JobsPage";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<MainLayout />}>
+      <Route index element={<Home />} />
+      <Route path={"/jobs"} element={<JobsPage />} />
+    </Route>
+  )
+);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }

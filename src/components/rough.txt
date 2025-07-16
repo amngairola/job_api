@@ -1,0 +1,17 @@
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import HomeCards from "./components/HomeCards";
+import JobLisitng from "./components/JobLisitng";
+import ViewAllJobs from "./components/ViewAllJobs";
+
+return (
+  <div>
+    <Navbar />
+    {/* <!-- Hero --> */}
+    <Hero />
+    <HomeCards />
+    <JobLisitng />
+
+    <ViewAllJobs />
+  </div>
+);
