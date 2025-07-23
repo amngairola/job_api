@@ -1,25 +1,30 @@
-import React, { use } from "react";
+import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useLoaderData, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const AddJobPage = ({ addJobSubmit }) => {
-  const [title, setTitle] = useState("");
-  const [type, setType] = useState("Full-Time");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [salary, setSalary] = useState("Under $50K");
-  const [companyName, setCompanyName] = useState("");
-  const [companyDescription, setCompanyDescription] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+const EditJob = ({ updateJobSubmit }) => {
+  const job = useLoaderData();
+  const [title, setTitle] = useState(job.title);
+  const [type, setType] = useState(job.type);
+  const [location, setLocation] = useState(job.location);
+  const [description, setDescription] = useState(job.description);
+  const [salary, setSalary] = useState(job.salary);
+  const [companyName, setCompanyName] = useState(job.company.name);
+  const [companyDescription, setCompanyDescription] = useState(
+    job.company.description
+  );
+  const [contactEmail, setContactEmail] = useState(job.company.contactEmail);
+  const [contactPhone, setContactPhone] = useState(job.company.contactPhone);
 
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const submitForm = (e) => {
     e.preventDefault();
 
-    const newJob = {
+    const updatedJob = {
+      id,
       title,
       type,
       location,
@@ -33,21 +38,26 @@ const AddJobPage = ({ addJobSubmit }) => {
       },
     };
 
-    addJobSubmit(newJob);
-    toast.success("Job added successfully!");
+    updateJobSubmit(updatedJob);
 
-    return navigate("/jobs");
+    toast.success("Job Updated Successfully");
+
+    return navigate(`/jobs/${id}`);
   };
-
   return (
     <section className="bg-indigo-50">
       <div className="container m-auto max-w-2xl py-24">
         <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
           <form onSubmit={submitForm}>
-            <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
+            <h2 className="text-3xl text-center font-semibold mb-6">
+              Update Job
+            </h2>
 
             <div className="mb-4">
-              <label for="type" className="block text-gray-700 font-bold mb-2">
+              <label
+                htmlFor="type"
+                className="block text-gray-700 font-bold mb-2"
+              >
                 Job Type
               </label>
               <select
@@ -82,7 +92,7 @@ const AddJobPage = ({ addJobSubmit }) => {
             </div>
             <div className="mb-4">
               <label
-                for="description"
+                htmlFor="description"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Description
@@ -99,7 +109,10 @@ const AddJobPage = ({ addJobSubmit }) => {
             </div>
 
             <div className="mb-4">
-              <label for="type" className="block text-gray-700 font-bold mb-2">
+              <label
+                htmlFor="type"
+                className="block text-gray-700 font-bold mb-2"
+              >
                 Salary
               </label>
               <select
@@ -162,7 +175,7 @@ const AddJobPage = ({ addJobSubmit }) => {
 
             <div className="mb-4">
               <label
-                for="company_description"
+                htmlFor="company_description"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Company Description
@@ -180,7 +193,7 @@ const AddJobPage = ({ addJobSubmit }) => {
 
             <div className="mb-4">
               <label
-                for="contact_email"
+                htmlFor="contact_email"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Contact Email
@@ -198,7 +211,7 @@ const AddJobPage = ({ addJobSubmit }) => {
             </div>
             <div className="mb-4">
               <label
-                for="contact_phone"
+                htmlFor="contact_phone"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Contact Phone
@@ -219,7 +232,7 @@ const AddJobPage = ({ addJobSubmit }) => {
                 className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Add Job
+                Update Job
               </button>
             </div>
           </form>
@@ -229,4 +242,4 @@ const AddJobPage = ({ addJobSubmit }) => {
   );
 };
 
-export default AddJobPage;
+export default EditJob;
